@@ -10,6 +10,7 @@ require("awful.autofocus")
 local wibox = require("wibox")
 -- Theme handling library
 local beautiful = require("beautiful")
+local dpi = require("beautiful").xresources.apply_dpi
 -- Notification library
 local naughty = require("naughty")
 local menubar = require("menubar")
@@ -185,14 +186,70 @@ awful.screen.connect_for_each_screen(function(s)
     s.mytaglist = awful.widget.taglist {
         screen  = s,
         filter  = awful.widget.taglist.filter.all,
-        buttons = taglist_buttons
+        buttons = taglist_buttons,
+        widget_template = {
+            id = 'background_role',
+            border_strategy = 'inner',
+            widget = wibox.container.background,
+            {
+                widget = wibox.layout.fixed.horizontal,
+                fill_space = true,
+                {
+                    id = 'icon_margin_role',
+                    widget = wibox.container.margin,
+                    {
+                        id = 'icon_role',
+                        widget = wibox.widget.imagebox,
+                        left = dpi(4),
+                    },
+                },
+                {
+                    id = 'text_margin_role',
+                    widget = wibox.container.margin,
+                    left = dpi(4),
+                    right = dpi(4),
+                    {
+                        id = 'text_role',
+                        widget = wibox.widget.textbox,
+                    },
+                }
+            }
+        }
     }
 
     -- Create a tasklist widget
     s.mytasklist = awful.widget.tasklist {
         screen  = s,
         filter  = awful.widget.tasklist.filter.currenttags,
-        buttons = tasklist_buttons
+        buttons = tasklist_buttons,
+        widget_template = {
+            id = 'background_role',
+            border_strategy = 'inner',
+            widget = wibox.container.background,
+            {
+                widget = wibox.layout.fixed.horizontal,
+                fill_space = true,
+                {
+                    id = 'icon_margin_role',
+                    widget = wibox.container.margin,
+                    {
+                        id = 'icon_role',
+                        widget = wibox.widget.imagebox,
+                        left = dpi(4),
+                    },
+                },
+                {
+                    id = 'text_margin_role',
+                    widget = wibox.container.margin,
+                    left = dpi(4),
+                    right = dpi(4),
+                    {
+                        id = 'text_role',
+                        widget = wibox.widget.textbox,
+                    },
+                }
+            }
+        }
     }
 
     -- Create the wibox
