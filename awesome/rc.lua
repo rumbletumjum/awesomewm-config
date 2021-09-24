@@ -565,6 +565,13 @@ awful.rules.rules = {
                 awful.titlebar.hide(c)
             end
         }
+    },
+    {
+        rule = { instance = "floatterm" },
+        properties = {
+            floating = true,
+            placement = awful.placement.under_mouse + awful.placement.no_offscreen,
+        }
     }
 
     -- Set Firefox to always map on the tag named "2" on screen 1.
