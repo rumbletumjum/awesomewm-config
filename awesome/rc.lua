@@ -488,6 +488,22 @@ awful.rules.rules = {
         }
       }, properties = { floating = true }},
 
+    {
+        rule_any = {
+            class = {
+                "Eog",
+                "Org.gnome.Nautilus",
+            },
+        },
+        properties = {
+            floating = true,
+            titlebars_enabled = false,
+            placement = awful.placement.under_mouse + awful.placement.no_offscreen,
+            callback = function(c)
+                awful.titlebar.hide(c)
+            end
+        }
+    }
 
     -- Set Firefox to always map on the tag named "2" on screen 1.
     -- { rule = { class = "Firefox" },
