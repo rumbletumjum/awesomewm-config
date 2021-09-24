@@ -193,6 +193,38 @@ awful.screen.connect_for_each_screen(function(s)
         screen  = s,
         filter  = awful.widget.taglist.filter.all,
         buttons = taglist_buttons,
+        layout  = {
+            layout  = wibox.layout.fixed.horizontal,
+            spacing = 2,
+        },
+        widget_template = {
+            id = 'background_role',
+            border_strategy = 'inner',
+            widget = wibox.container.background,
+            {
+                widget = wibox.layout.fixed.horizontal,
+                fill_space = true,
+                {
+                    id = 'icon_margin_role',
+                    widget = wibox.container.margin,
+                    {
+                        id = 'icon_role',
+                        widget = wibox.widget.imagebox,
+                        left = dpi(4),
+                    },
+                },
+                {
+                    id = 'text_margin_role',
+                    widget = wibox.container.margin,
+                    left = dpi(8),
+                    right = dpi(8),
+                    {
+                        id = 'text_role',
+                        widget = wibox.widget.textbox,
+                    },
+                }
+            }
+        }
     }
 
     s.btmtaglist = awful.widget.taglist {
