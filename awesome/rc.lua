@@ -388,6 +388,15 @@ globalkeys = gears.table.join(
     awful.key({ modkey,           }, "u", awful.client.urgent.jumpto,
               {description = "jump to urgent client", group = "client"}),
 
+    awful.key({ modkey,           }, "i",
+        function()
+            client.focus = awful.client.getmaster()
+            if client.focus then
+                client.focus:raise()
+            end
+        end,
+        {description = "jump to master", group = "client"}),
+
     awful.key({ modkey,           }, "Tab",
         function ()
             awful.client.focus.history.previous()
