@@ -13,6 +13,7 @@
 
 local awful = require("awful")
 local wibox = require("wibox")
+local gears = require("gears")
 
 local module = {}
 
@@ -62,24 +63,36 @@ function module.new(config)
 	return awful.widget.taglist{
 		screen = s,
 		filter = awful.widget.taglist.filter.all,
+		style = {
+			shape_border_width = 2, shape_border_color = '#90c8c2',
+			shape = function(cr, w, h)
+				gears.shape.rounded_rect(cr, w, h, 5)
+			end
+		},
+		layout = {
+			layout = wibox.layout.fixed.horizontal,
+			spacing = 10,
+		},
 		widget_template = {
 			{
 				{
-					-- tag
 					{
-						id = "text_role",
-						widget = wibox.widget.textbox,
-						align = "center"
+						{ -- Tag
+							id = "text_role",
+							widget = wibox.widget.textbox,
+							align = "center"
+						},
+						{ -- tasklist
+							id = "tasklist_placeholder",
+							layout = wibox.layout.fixed.horizontal
+						},
+						layout = wibox.layout.fixed.vertical
 					},
-					-- tasklist
-					{
-						id = "tasklist_placeholder",
-						layout = wibox.layout.fixed.horizontal
-					},
-					layout = wibox.layout.fixed.horizontal
+					top = 4, bottom = 4, left = 8, right = 8,
+					widget = wibox.container.margin,
 				},
 				id = "background_role",
-				widget = wibox.container.background
+				widget = wibox.container.background,
 			},
 			layout = wibox.layout.fixed.horizontal,
 			create_callback = function(self, _, index, _)

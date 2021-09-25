@@ -46,7 +46,7 @@ end
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
-beautiful.init(gears.filesystem.get_configuration_dir() .. "default/theme.lua")
+beautiful.init(gears.filesystem.get_themes_dir() .. "gtk/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 terminal = "alacritty"
@@ -82,6 +82,58 @@ awful.layout.layouts = {
     -- awful.layout.suit.corner.se,
 }
 -- }}}
+-- local buttons_example = wibox {
+--     visible = true,
+--     bg = '#00000000',
+--     ontop = true,
+--     height = 36,
+--     width = 800,
+--     -- shape = function(cr, width, height)
+--     --     gears.shape.rounded_bar(cr, width, height)
+--     -- end
+-- }
+
+-- local button = wibox.widget {
+--     {
+--     {
+--         {
+--             {
+--                 text = "I'm a widget!",
+--                 widget = wibox.widget.textbox
+--             },
+--             top = 4, bottom = 4, left = 8, right = 8,
+--             widget = wibox.container.margin
+--         },
+--         bg = '#2e3440',
+--         shape_border_width = 1, shape_border_color = '#4c566a',
+--         shape = function(cr, w, h)
+--             gears.shape.rounded_rect(cr, w, h, 5)
+--         end,
+--         widget = wibox.container.background
+--     },
+--     widget = wibox.container.place
+--     },
+
+--     shape_border_width = 1, shape_border_color = 'red',
+--     shape = function(cr, w, h)
+--         gears.shape.rounded_rect(cr, w, h, 5)
+--     end,
+--     widget = wibox.container.background
+-- }
+
+-- local fancy_taglist = require("fancy_taglist")
+-- ft = fancy_taglist.new({ screen = awful.screen.focused() })
+
+-- buttons_example:setup {
+--     layout = wibox.layout.align.horizontal,
+--     ft,
+--     nil,
+--     nil
+-- }
+
+-- buttons_example:setup
+
+-- awful.placement.top(buttons_example, { margins = {top = 100}, parent = awful.screen.focused()})
 
 -- {{{ Menu
 -- Create a launcher widget and a main menu
@@ -172,7 +224,7 @@ screen.connect_signal("property::geometry", set_wallpaper)
 
 awful.screen.connect_for_each_screen(function(s)
     -- Wallpaper
-    set_wallpaper(s)
+    -- set_wallpaper(s)
 
     -- Each screen has its own tag table.
     awful.tag({ "main", "web", "term", "float", "5", "6", "7", "8", "9" }, s, awful.layout.layouts[1])
