@@ -37,8 +37,7 @@ local fancytasklist = function(cfg, tag_index)
 		widget_template = {
 			{
 				id = "clienticon",
-				widget = awful.widget.clienticon,
-                -- forced_height = 16,
+				widget = awful.widget.clienticon
 			},
 			layout = wibox.layout.stack,
 			create_callback = function(self, c, _, _)
@@ -63,14 +62,6 @@ function module.new(config)
 	return awful.widget.taglist{
 		screen = s,
 		filter = awful.widget.taglist.filter.all,
-        layout = {
-            layout = wibox.layout.fixed.horizontal,
-            spacing = 15,
-        },
-		style = {
-			squares_sel = "",
-			squares_unsel = "",
-		},
 		widget_template = {
 			{
 				{
@@ -80,19 +71,12 @@ function module.new(config)
 						widget = wibox.widget.textbox,
 						align = "center"
 					},
-                    {
 					-- tasklist
-                        {
-                            id = "tasklist_placeholder",
-                            layout = wibox.layout.fixed.horizontal,
-                        },
-                        widget = wibox.container.margin,
-                        left = 10,
-                        right = 10,
-						align = "center",
-                    },
-				layout = wibox.layout.fixed.vertical,
-				spacing = 0,
+					{
+						id = "tasklist_placeholder",
+						layout = wibox.layout.fixed.horizontal
+					},
+					layout = wibox.layout.fixed.horizontal
 				},
 				id = "background_role",
 				widget = wibox.container.background
