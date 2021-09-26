@@ -594,21 +594,9 @@ awful.rules.rules = {
         }
       }, properties = { floating = true }},
 
-    {
-        rule_any = {
-            class = {
-                "Eog",
-                "Org.gnome.Nautilus",
-            },
-        },
-        properties = {
-            floating = true,
-            titlebars_enabled = false,
-            placement = awful.placement.under_mouse + awful.placement.no_offscreen,
-            callback = function(c)
-                awful.titlebar.hide(c)
-            end
-        }
+    -- Add titlebars to normal clients and dialogs
+    { rule_any = {type = { "normal", "dialog" }
+      }, properties = { titlebars_enabled = false }
     },
     {
         rule = { instance = "floatterm" },
