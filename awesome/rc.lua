@@ -55,6 +55,8 @@ editor_cmd = terminal .. " -e " .. editor
 file_manager = "nautilus"
 float_term = terminal .. " --class floatterm"
 
+awesome.set_preferred_icon_size(32)
+
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
 -- If you do not like this or do not have such a key,
@@ -211,8 +213,8 @@ awful.screen.connect_for_each_screen(function(s)
                 {
                     id = 'text_margin_role',
                     widget = wibox.container.margin,
-                    left = dpi(4),
-                    right = dpi(4),
+                    left = dpi(8),
+                    right = dpi(8),
                     {
                         id = 'text_role',
                         widget = wibox.widget.textbox,
