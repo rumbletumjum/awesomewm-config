@@ -13,6 +13,7 @@
 
 local awful = require("awful")
 local wibox = require("wibox")
+local gears = require("gears")
 
 local module = {}
 
@@ -37,8 +38,7 @@ local fancytasklist = function(cfg, tag_index)
 		widget_template = {
 			{
 				id = "clienticon",
-				widget = awful.widget.clienticon,
-                -- forced_height = 16,
+				widget = awful.widget.clienticon
 			},
 			layout = wibox.layout.stack,
 			create_callback = function(self, c, _, _)
@@ -63,39 +63,36 @@ function module.new(config)
 	return awful.widget.taglist{
 		screen = s,
 		filter = awful.widget.taglist.filter.all,
-        layout = {
-            layout = wibox.layout.fixed.horizontal,
-            spacing = 15,
-        },
 		style = {
-			squares_sel = "",
-			squares_unsel = "",
+			shape_border_width = 2, shape_border_color = '#90c8c2',
+			shape = function(cr, w, h)
+				gears.shape.rounded_rect(cr, w, h, 5)
+			end
+		},
+		layout = {
+			layout = wibox.layout.fixed.horizontal,
+			spacing = 10,
 		},
 		widget_template = {
 			{
 				{
-					-- tag
 					{
-						id = "text_role",
-						widget = wibox.widget.textbox,
-						align = "center"
+						{ -- Tag
+							id = "text_role",
+							widget = wibox.widget.textbox,
+							align = "center"
+						},
+						{ -- tasklist
+							id = "tasklist_placeholder",
+							layout = wibox.layout.fixed.horizontal
+						},
+						layout = wibox.layout.fixed.vertical
 					},
-                    {
-					-- tasklist
-                        {
-                            id = "tasklist_placeholder",
-                            layout = wibox.layout.fixed.horizontal,
-                        },
-                        widget = wibox.container.margin,
-                        left = 10,
-                        right = 10,
-						align = "center",
-                    },
-				layout = wibox.layout.fixed.vertical,
-				spacing = 0,
+					top = 4, bottom = 4, left = 8, right = 8,
+					widget = wibox.container.margin,
 				},
 				id = "background_role",
-				widget = wibox.container.background
+				widget = wibox.container.background,
 			},
 			layout = wibox.layout.fixed.horizontal,
 			create_callback = function(self, _, index, _)
