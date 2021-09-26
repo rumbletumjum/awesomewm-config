@@ -12,7 +12,7 @@ local themes_path = gfs.get_configuration_dir()
 local theme = {}
 
 theme.font          = "GohuFont Nerd Font 14px"
--- theme.taglist_font  = "Terminus 12"
+theme.taglist_font  = "siji 10"
 
 theme.bg_normal     = "#222222"
 theme.bg_focus      = "#535d6c"

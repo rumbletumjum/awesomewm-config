@@ -63,7 +63,6 @@ modkey = "Mod4"
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
     awful.layout.suit.tile,
-    awful.layout.suit.floating,
     awful.layout.suit.max,
     awful.layout.suit.tile.left,
     awful.layout.suit.tile.bottom,
@@ -75,6 +74,7 @@ awful.layout.layouts = {
     awful.layout.suit.max.fullscreen,
     awful.layout.suit.magnifier,
     awful.layout.suit.corner.nw,
+    awful.layout.suit.floating,
     -- awful.layout.suit.corner.ne,
     -- awful.layout.suit.corner.sw,
     -- awful.layout.suit.corner.se,
@@ -242,9 +242,22 @@ awful.screen.connect_for_each_screen(function(s)
         screen  = s,
         filter  = awful.widget.taglist.filter.all,
         buttons = taglist_buttons,
-        style   = {
-            taglist_font = "siji 10"
-        }
+    }
+
+    s.wrappedtaglist = wibox.widget {
+        {
+        {
+            s.mytaglist,
+            margins = 0,
+            widget = wibox.container.margin,
+        },
+        shape = gears.shape.rounded_rect,
+        -- bg = "green",
+        shape_clip = true,
+        widget = wibox.container.background
+        },
+        left = 20, right = 20, top = 4, bottom = 4,
+        widget = wibox.container.margin
     }
 
     -- Create a tasklist widget
@@ -285,6 +298,8 @@ awful.screen.connect_for_each_screen(function(s)
     -- Create the wibox
     s.mywibox = awful.wibar({ position = "top", screen = s })
 
+    s.bottombox = awful.wibar({ position = "bottom", height = 32, screen = s })
+
     -- Add widgets to the wibox
     s.mywibox:setup {
         layout = wibox.layout.align.horizontal,
@@ -292,6 +307,24 @@ awful.screen.connect_for_each_screen(function(s)
             layout = wibox.layout.fixed.horizontal,
             mylauncher,
             s.mytaglist,
+            s.mypromptbox,
+        },
+        s.mytasklist, -- Middle widget
+        { -- Right widgets
+            layout = wibox.layout.fixed.horizontal,
+            mykeyboardlayout,
+            wibox.widget.systray(),
+            mytextclock,
+            s.mylayoutbox,
+        },
+    }
+
+    s.bottombox:setup {
+        layout = wibox.layout.align.horizontal,
+        { -- Left widgets
+            layout = wibox.layout.fixed.horizontal,
+            mylauncher,
+            s.wrappedtaglist,
             s.mypromptbox,
         },
         s.mytasklist, -- Middle widget
