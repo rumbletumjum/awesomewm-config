@@ -5,14 +5,19 @@ local dpi           = xresources.apply_dpi
 local gfs           = require("gears.filesystem")
 local themes_path   = gfs.get_configuration_dir()
 
+local gears         = require("gears")
+local wibox         = require("wibox")
+local awful         = require("awful")
+local util          = require("util")
+
 local theme = {}
 
 theme.font          = "GohuFont Nerd Font 14px"
 
-theme.bg_normal     = "#1d1f21"
-theme.bg_focus      = "#535d6c"
+theme.bg_normal     = "#1f2937"
+theme.bg_focus      = "#3f51b5"
 theme.bg_urgent     = "#ff0000"
-theme.bg_minimize   = "#444444"
+theme.bg_minimize   = "#404977"
 theme.bg_systray    = theme.bg_normal
 
 theme.fg_normal     = "#aaaaaa"
@@ -39,15 +44,15 @@ theme.border_marked = "#91231c"
 -- Example:
 -- theme.taglist_bg_occupied = "#00ff00"
 -- theme.taglist_bg_empty = "#0000ff"
-theme.taglist_bg_occupied = "#333333"
+theme.taglist_bg_occupied = "#2e3e60"
 
 -- Generate taglist squares:
-local taglist_square_size = dpi(4)
-theme.taglist_squares_sel = theme_assets.taglist_squares_sel(
-    taglist_square_size, theme.fg_normal
+local taglist_square_size = 4
+theme.taglist_squares_sel = util.taglist_squares_sel(
+    taglist_square_size, theme.fg_focus
 )
-theme.taglist_squares_unsel = theme_assets.taglist_squares_unsel(
-    taglist_square_size, theme.fg_normal
+theme.taglist_squares_unsel = util.taglist_squares_unsel(
+    taglist_square_size, theme.fg_normal, "#2e3e69"
 )
 
 -- Variables set for theming notifications:
