@@ -228,8 +228,12 @@ awful.screen.connect_for_each_screen(function(s)
                     id = 'icon_margin_role',
                     widget = wibox.container.margin,
                     {
-                        id = 'icon_role',
-                        widget = wibox.widget.imagebox,
+                        widget = wibox.container.place,
+                        {
+                            id = 'icon_role',
+                            widget = wibox.widget.imagebox,
+                            forced_width = 20,
+                        },
                     },
                 },
                 {
@@ -247,18 +251,27 @@ awful.screen.connect_for_each_screen(function(s)
     }
 
     -- Create the wibox
-    s.mywibox = awful.wibar({ position = "bottom", screen = s })
+    s.mywibox = awful.wibar({ position = "top", screen = s, height = 36 })
 
     -- Add widgets to the wibox
     s.mywibox:setup {
         layout = wibox.layout.align.horizontal,
+        expand = "inside",
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
             mylauncher,
-            s.mytaglist,
+            {
+                widget = wibox.container.margin,
+                left = 5, right = 5, top = 5, bottom = 5,
+                s.mytaglist,
+            },
             s.mypromptbox,
         },
-        s.mytasklist, -- Middle widget
+        {
+            widget = wibox.container.margin,
+            margins = 5,
+            s.mytasklist,
+        },
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             wibox.widget.systray(),
