@@ -104,7 +104,7 @@ mykeyboardlayout = awful.widget.keyboardlayout()
 
 -- {{{ Wibar
 -- Create a textclock widget
-mytextclock = wibox.widget.textclock()
+mytextclock = wibox.widget.textclock("%m/%d %T", 1)
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
@@ -178,10 +178,11 @@ awful.screen.connect_for_each_screen(function(s)
                            awful.button({ }, 3, function () awful.layout.inc(-1) end),
                            awful.button({ }, 4, function () awful.layout.inc( 1) end),
                            awful.button({ }, 5, function () awful.layout.inc(-1) end)))
+
     -- Create a taglist widget
     s.mytaglist = awful.widget.taglist {
         screen  = s,
-        filter  = awful.widget.taglist.filter.all,
+        filter  = awful.widget.taglist.filter.noempty,
         buttons = taglist_buttons,
         widget_template = {
             id = 'background_role',
@@ -227,12 +228,12 @@ awful.screen.connect_for_each_screen(function(s)
                 {
                     id = 'icon_margin_role',
                     widget = wibox.container.margin,
+                    margins = 2,
                     {
                         widget = wibox.container.place,
                         {
                             id = 'icon_role',
                             widget = wibox.widget.imagebox,
-                            forced_width = 20,
                         },
                     },
                 },
@@ -251,7 +252,7 @@ awful.screen.connect_for_each_screen(function(s)
     }
 
     -- Create the wibox
-    s.mywibox = awful.wibar({ position = "top", screen = s, height = 36 })
+    s.mywibox = awful.wibar({ position = "top", screen = s, height = 28 })
 
     -- Add widgets to the wibox
     s.mywibox:setup {
@@ -276,7 +277,7 @@ awful.screen.connect_for_each_screen(function(s)
             layout = wibox.layout.fixed.horizontal,
             wibox.widget.systray(),
             mytextclock,
-            s.mylayoutbox,
+            wibox.container.margin(s.mylayoutbox, 4, 4, 4, 4)
         },
     }
 

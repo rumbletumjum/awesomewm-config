@@ -12,7 +12,7 @@ local util          = require("util")
 
 local theme = {}
 
-theme.font          = "GohuFont Nerd Font 14px"
+theme.font          = "Iosevka Term 10"
 
 theme.bg_normal     = "#1f2937"
 theme.bg_focus      = "#3f51b5"
