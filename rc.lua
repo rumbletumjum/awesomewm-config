@@ -182,8 +182,26 @@ awful.screen.connect_for_each_screen(function(s)
     -- set_wallpaper(s)
 
     -- Each screen has its own tag table.
-    awful.tag({ "1:term", "2:web", "3:files", "4:mpv", "5", "6:emacs", "7", "8", "9:mail" }, s, awful.layout.layouts[1])
+    -- awful.tag({ "1:term", "2:web", "3:files", "4:mpv", "5", "6:emacs", "7", "8", "9:mail" }, s, awful.layout.layouts[1])
+    -- awful.tag({ "1:term", "2:web", "3:files", "4", "5", "6:emacs", }, s, awful.layout.layouts[1])
 
+    awful.tag.add("one", {
+                      layout = awful.layout.suit.tile,
+                      master_fill_policy = "master_width_factor",
+                      master_width_factor = 0.65,
+                      gap_single_client = true,
+                      gap = 5,
+                      screen = s,
+                      selected = true,
+    })
+
+    awful.tag.add("two", {
+                      layout = awful.layout.suit.tile,
+                      master_fill_policy = "master_width_factor",
+                      gap_single_client = true,
+                      gap = 5,
+                      screen = s,
+    })
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
     -- Create an imagebox widget which will contain an icon indicating which layout we're using.
@@ -497,16 +515,50 @@ awful.rules.rules = {
           "ConfigManager",  -- Thunderbird's about:config.
           "pop-up",       -- e.g. Google Chrome's (detached) Developer Tools.
         }
-      }, properties = { floating = true }},
-
-    -- Add titlebars to normal clients and dialogs
-    { rule_any = {type = { "normal", "dialog" }
-      }, properties = { titlebars_enabled = false }
+      }, 
+      properties = {
+          floating = true,
+          placement = awful.placement.centered,
+      }
+  },
+  { rule_any = {
+      class = {
+          "Vivaldi-stable",
+          "qutebrowser",
+          "Brave-browser",
+          "Firefox",
+      },
     },
+    properties = { tag = "two" }
+  },
+    -- Add titlebars to normal clients and dialogs
+    -- { rule_any = {type = { "normal", "dialog" }
+    --   }, properties = { titlebars_enabled = false }
+    -- },
+    -- {
+    --   rule_any = { type = { "normal", "dialog" } },
+    --   properties = { titlebars_enabled = false }
+    -- },
+    -- {
+    --   rule = { class = "Transmission-gtk" },
+    --   properties = { tag = "8" }
+    -- },
+    -- {
+    --   rule = { class = "mpv" },
+    --   properties = { tag = "4:mpv" }
+    -- },
+    -- {
+    --     rule = { class = "Org.gnome.Nautilus" },
+    --     properties = { tag = "3:files" }
+    -- },
+    -- {
+    --   rule = { class = "Emacs" },
+    --   properties = { tag = "6:emacs" }
+    -- },
 
     -- Set Firefox to always map on the tag named "2" on screen 1.
     -- { rule = { class = "Firefox" },
-    --   properties = { screen = 1, tag = "2" } },
+    --   properties = { screen = 1, tag = "2:web" } },
 }
 -- }}}
 
