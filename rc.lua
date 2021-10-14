@@ -481,11 +481,14 @@ awful.rules.rules = {
           "pinentry",
         },
         class = {
+          "1Password",
           "Arandr",
           "Blueman-manager",
+          "Gnome-control-center",
           "Gpick",
           "Kruler",
           "MessageWin",  -- kalarm.
+          "Org.gnome.Nautilus",
           "Sxiv",
           "Tor Browser", -- Needs a fixed window size to avoid fingerprinting by screen size.
           "Wpa_gui",
