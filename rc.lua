@@ -187,38 +187,44 @@ awful.screen.connect_for_each_screen(function(s)
                            awful.button({ }, 5, function () awful.layout.inc(-1) end)))
     -- Create a taglist widget
     s.mytaglist = awful.widget.taglist {
-        screen  = s,
-        filter  = awful.widget.taglist.filter.noempty,
-        buttons = taglist_buttons
+       screen  = s,
+       filter  = awful.widget.taglist.filter.noempty,
+       buttons = taglist_buttons
     }
 
     -- Create a tasklist widget
     s.mytasklist = awful.widget.tasklist {
-        screen  = s,
-        filter  = awful.widget.tasklist.filter.currenttags,
-        buttons = tasklist_buttons
+       screen  = s,
+       filter  = awful.widget.tasklist.filter.currenttags,
+       buttons = tasklist_buttons
     }
 
     -- Create the wibox
-    s.mywibox = awful.wibar({ position = "top", screen = s })
+    s.mywibox = awful.wibar { position = 'top', screen = s }
+    s.bottom_wibox = awful.wibar { position = 'bottom', screen = s }
 
-    -- Add widgets to the wibox
     s.mywibox:setup {
-        layout = wibox.layout.align.horizontal,
-        { -- Left widgets
-            layout = wibox.layout.fixed.horizontal,
-            mylauncher,
-            s.mytaglist,
-            s.mypromptbox,
-        },
-        s.mytasklist, -- Middle widget
-        { -- Right widgets
-            layout = wibox.layout.fixed.horizontal,
-            mykeyboardlayout,
-            wibox.widget.systray(),
-            mytextclock,
-            s.mylayoutbox,
-        },
+       layout = wibox.layout.align.horizontal,
+       {
+          layout = wibox.layout.fixed.horizontal,
+          mylauncher,
+          s.mytaglist,
+          s.mypromptbox,
+       },
+       s.mytasklist,
+       {
+          layout = wibox.layout.fixed.horizontal,
+          wibox.widget.systray(),
+          mytextclock,
+          s.mylayoutbox,
+       },
+    }
+
+    s.bottom_wibox:setup {
+       layout = wibox.layout.align.horizontal,
+       nil,
+       s.mytasklist,
+       nil,
     }
 end)
 -- }}}
