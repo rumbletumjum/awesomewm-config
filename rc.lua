@@ -12,6 +12,7 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 -- Notification library
 local naughty = require("naughty")
+local ruled = require("ruled")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
 
@@ -263,11 +264,11 @@ end)
 -- }}}
 
 -- {{{ Mouse bindings
-root.buttons(gears.table.join(
+awful.mouse.append_global_mousebindings {
     awful.button({ }, 3, function () mymainmenu:toggle() end),
     awful.button({ }, 4, awful.tag.viewnext),
     awful.button({ }, 5, awful.tag.viewprev)
-))
+   }
 -- }}}
 
 -- {{{ Key bindings
@@ -468,19 +469,19 @@ for i = 1, 9 do
     )
 end
 
-clientbuttons = gears.table.join(
-    awful.button({ }, 1, function (c)
-        c:emit_signal("request::activate", "mouse_click", {raise = true})
-    end),
-    awful.button({ modkey }, 1, function (c)
-        c:emit_signal("request::activate", "mouse_click", {raise = true})
-        awful.mouse.client.move(c)
-    end),
-    awful.button({ modkey }, 3, function (c)
-        c:emit_signal("request::activate", "mouse_click", {raise = true})
-        awful.mouse.client.resize(c)
-    end)
-)
+client.connect_signal("request::default_mousebindings", function()
+    awful.mouse.append_client_mousebindings({
+        awful.button({ }, 1, function (c)
+            c:activate { context = "mouse_click" }
+        end),
+        awful.button({ modkey }, 1, function (c)
+            c:activate { context = "mouse_click", action = "mouse_move"  }
+        end),
+        awful.button({ modkey }, 3, function (c)
+            c:activate { context = "mouse_click", action = "mouse_resize"}
+        end),
+    })
+end)
 
 -- Set keys
 root.keys(globalkeys)
@@ -489,55 +490,52 @@ root.keys(globalkeys)
 -- {{{ Rules
 -- Rules to apply to new clients (through the "manage" signal).
 -- All clients will match this rule.
-awful.rules.rules = {
-   {
+ruled.client.connect_signal("request::rules", function()
+   ruled.client.append_rule {
+      id = "global",
       rule = { },
       properties = {
-         border_width      = beautiful.border_width,
-         border_color      = beautiful.border_normal,
-         focus             = awful.client.focus.filter,
-         raise             = true,
-         keys              = clientkeys,
-         buttons           = clientbuttons,
-         screen            = awful.screen.preferred,
-         titlebars_enabled = false,
-         placement         = awful.placement.no_overlap+awful.placement.no_offscreen
-      },
-   },
-   {
+         focus = awful.client.focus.filter,
+         raise = true,
+         screen = awful.screen.preferred,
+         keys = clientkeys,
+         placement = awful.placement.no_overlap+awful.placement.no_offscreen,
+      }
+   }
+
+   ruled.client.append_rule {
+      id = 'flaoting',
       rule_any = {
          class = {
-            '1Password',
-            'Baobab',
-            'Gnome-control-center',
-            'Gpick',
-            'Org.gnome.Nautilus',
-            'Sxiv',
+            '1Password', 'Baobab', 'Gnome-control-center', 'Gpick',
+            'Org.gnome.Nautilus', 'Sxiv',
          },
       },
       properties = {
          floating  = true,
          placement = awful.placement.centered
-      },
-   },
-   {
-      rule_any = {
-         class = {
-            'Brave-browser',
-            'Firefox',
-            'qutebrowser',
-         },
-      },
-      properties = {
-         screen = 1,
-         tag    = 'two',
-      },
-   },
-   {
-      rule = { class = 'Emacs' },
-      properties = { screen = 1, tag = 'three', }
-   },
-}
+      }
+   }
+end)
+
+-- awful.rules.rules = {
+--    {
+--       rule = { },
+--       properties = {
+--          border_width = beautiful.border_width,
+--          border_color = beautiful.border_normal,
+--          focus = awful.client.focus.filter,
+--          raise = true,
+--          keys = clientkeys,
+--          buttons = clientbuttons,
+--          screen = awful.screen.preferred,
+--          titlebars_enabled = false,
+--          placement = awful.placement.no_overlap+awful.placement.no_offscreen
+--       }
+--    },
+
+--    -- Floating clients.
+-- }
 -- }}}
 
 -- {{{ Signals
@@ -597,7 +595,9 @@ end)
 
 -- Enable sloppy focus, so that focus follows mouse.
 client.connect_signal("mouse::enter", function(c)
-    c:emit_signal("request::activate", "mouse_enter", {raise = false})
+    -- c:emit_signal("request::activate", "mouse_enter", {raise = false})
+    -- c:emit_signal("request::activate", "mouse_enter", {raise = false})
+   c:activate { context = "mouse_enter", { raise = false } }
 end)
 
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
