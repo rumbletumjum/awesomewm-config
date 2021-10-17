@@ -188,21 +188,20 @@ awful.screen.connect_for_each_screen(function(s)
                            awful.button({ }, 5, function () awful.layout.inc(-1) end)))
     -- Create a taglist widget
     s.mytaglist = awful.widget.taglist {
-       screen  = s,
-       filter  = awful.widget.taglist.filter.all,
-       buttons = taglist_buttons
+       screen   = s,
+       filter   = awful.widget.taglist.filter.all,
+       buttons  = taglist_buttons
     }
 
     -- Create a tasklist widget
     s.mytasklist = awful.widget.tasklist {
-       screen  = s,
-       filter  = awful.widget.tasklist.filter.currenttags,
-       buttons = tasklist_buttons
+       screen    = s,
+       filter    = awful.widget.tasklist.filter.currenttags,
+       buttons   = tasklist_buttons
     }
 
     -- Create the wibox
     s.mywibox = awful.wibar { position = 'top', screen = s }
-    s.bottom_wibox = awful.wibar { position = 'bottom', screen = s }
 
     s.mywibox:setup {
        layout = wibox.layout.align.horizontal,
@@ -219,13 +218,6 @@ awful.screen.connect_for_each_screen(function(s)
           mytextclock,
           s.mylayoutbox,
        },
-    }
-
-    s.bottom_wibox:setup {
-       layout = wibox.layout.align.horizontal,
-       nil,
-       s.mytasklist,
-       nil,
     }
 end)
 -- }}}
