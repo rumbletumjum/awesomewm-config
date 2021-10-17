@@ -461,19 +461,17 @@ awful.rules.rules = {
    {
       rule = { },
       properties = {
-         border_width = beautiful.border_width,
-         border_color = beautiful.border_normal,
-         focus = awful.client.focus.filter,
-         raise = true,
-         keys = clientkeys,
-         buttons = clientbuttons,
-         screen = awful.screen.preferred,
+         border_width      = beautiful.border_width,
+         border_color      = beautiful.border_normal,
+         focus             = awful.client.focus.filter,
+         raise             = true,
+         keys              = clientkeys,
+         buttons           = clientbuttons,
+         screen            = awful.screen.preferred,
          titlebars_enabled = false,
-         placement = awful.placement.no_overlap+awful.placement.no_offscreen
-      }
+         placement         = awful.placement.no_overlap+awful.placement.no_offscreen
+      },
    },
-
-   -- Floating clients.
    {
       rule_any = {
          class = {
@@ -486,10 +484,23 @@ awful.rules.rules = {
          },
       },
       properties = {
-         floating = true,
+         floating  = true,
          placement = awful.placement.centered
-      }
+      },
    },
+   {
+      rule_any = {
+         class = {
+            'Brave-browser',
+            'Firefox',
+            'qutebrowser',
+         },
+      },
+      properties = {
+         screen = 1,
+         tag    = '2:web',
+      },
+   }
 }
 -- }}}
 
