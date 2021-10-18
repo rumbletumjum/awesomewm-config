@@ -14,6 +14,8 @@ local beautiful = require("beautiful")
 local naughty = require("naughty")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
+
+local mylayouts = require("layouts")
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
@@ -173,8 +175,47 @@ awful.screen.connect_for_each_screen(function(s)
     -- Wallpaper
     -- set_wallpaper(s)
 
-    -- Each screen has its own tag table.
-    awful.tag({ "1:term", "2:web", "3:files", "4:mpv", "5", "6:emacs", "7", "8", "9:mail" }, s, awful.layout.layouts[1])
+    local l = awful.layout.suit
+
+    awful.tag.add('one', {
+      layout = mylayouts.cols,
+      master_fill_policy = 'master_width_factor',
+      master_width_factor = 0.55,
+      gap_single_client = false,
+      gap = 5,
+      screen = s,
+      selected = true,
+   })
+
+    awful.tag.add('two', {
+      layout = l.tile,
+      master_fill_policy = 'master_width_factor',
+      master_width_factor = 0.67,
+      gap_single_client = true,
+      gap = 5,
+      screen = s,
+   })
+
+    awful.tag.add('three', {
+      layout = l.max,
+      gap_single_client = true,
+      gap = 5,
+      screen = s,
+   })
+
+    awful.tag.add('four', {
+      layout = l.floating,
+      screen = s,
+   })
+
+    awful.tag.add('five', {
+      layout = l.tile,
+      screen = s,
+   })
+
+    awful.tag.add('six', {
+      screen = s,
+   })
 
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
@@ -490,9 +531,13 @@ awful.rules.rules = {
       },
       properties = {
          screen = 1,
-         tag    = '2:web',
+         tag    = 'two',
       },
-   }
+   },
+   {
+      rule = { class = 'Emacs' },
+      properties = { screen = 1, tag = 'three', }
+   },
 }
 -- }}}
 
