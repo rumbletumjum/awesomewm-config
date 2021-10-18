@@ -532,7 +532,7 @@ ruled.client.connect_signal("request::rules", function()
    }
 
    ruled.client.append_rule {
-      id = 'flaoting',
+      id = 'floating',
       rule_any = {
          class = {
             '1Password', 'Baobab', 'Gnome-control-center', 'Gpick',
@@ -544,6 +544,20 @@ ruled.client.connect_signal("request::rules", function()
          placement = awful.placement.centered
       }
    }
+
+   ruled.client.append_rule {
+      rule_any = {
+         class = {
+            'Brave-browser',
+            'Firefox',
+            'qutebrowser',
+         },
+      },
+      properties = {
+         screen = 1,
+         tag    = 'two',
+      },
+   },
 end)
 
 -- awful.rules.rules = {
