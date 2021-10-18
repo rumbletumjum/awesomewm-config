@@ -56,6 +56,7 @@ beautiful.init(gears.filesystem.get_configuration_dir() .. "default/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 terminal = "alacritty"
+float_term = "alacritty --class floatterm"
 file_browser = "nautilus"
 editor = os.getenv("EDITOR") or "editor"
 editor_cmd = terminal .. " -e " .. editor
@@ -328,7 +329,8 @@ globalkeys = gears.table.join(
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
               {description = "open a terminal", group = "launcher"}),
-
+    awful.key({ modkey, "Shift"   }, "Return", function () awful.spawn(float_term) end,
+              {description = "launch a floating terminal", group = "launcher"}),
     awful.key({ modkey,           }, "b", function() awful.spawn(file_browser) end,
               {description = "launch file browser", group = "launcher"}),
 
@@ -516,6 +518,7 @@ ruled.client.connect_signal("request::rules", function()
    ruled.client.append_rule {
       id = 'floating',
       rule_any = {
+         instance = { 'floatterm' },
          class = {
             '1Password', 'Baobab', 'Gnome-control-center', 'Gpick',
             'Org.gnome.Nautilus', 'Sxiv',
