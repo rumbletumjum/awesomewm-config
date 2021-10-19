@@ -114,6 +114,7 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 
 -- {{{ Wibar
 
+-- Taglist/Tasklist Buttons {{{
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
    awful.button({ }, 1, function(t) t:view_only() end),
@@ -153,6 +154,7 @@ local tasklist_buttons = gears.table.join(
    awful.button({ }, 5, function ()
       awful.client.focus.byidx(-1)
    end))
+-- }}}
 
 awful.screen.connect_for_each_screen(function(s)
     local l = awful.layout.suit
@@ -243,8 +245,9 @@ awful.screen.connect_for_each_screen(function(s)
          }
       }
    }
+   -- }}}
 
-    -- Create a tasklist widget
+   -- Tasklist {{{
    s.mytasklist = awful.widget.tasklist {
       screen  = s,
       filter  = awful.widget.tasklist.filter.currenttags,
@@ -289,6 +292,7 @@ awful.screen.connect_for_each_screen(function(s)
          }
       }
    }
+   -- }}}
 
    local mem_widget = wibox.widget.textbox()
    vicious.cache(vicious.widgets.mem)
@@ -297,7 +301,7 @@ awful.screen.connect_for_each_screen(function(s)
    taglistcont = wibox.container.background(s.mytaglist, "#000000", gears.shape.rectangle)
    s.taglistbox = wibox.container.margin(taglistcont, 0, 0, 5, 5)
 
-   -- Create the wibox
+   -- Wibox {{{
    s.mywibox = awful.wibar { position = 'top', height = 28, screen = s }
 
    s.mywibox:setup {
@@ -316,6 +320,7 @@ awful.screen.connect_for_each_screen(function(s)
          s.mylayoutbox,
       },
    }
+   -- }}}
 end)
 -- }}}
 
