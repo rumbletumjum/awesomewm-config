@@ -162,6 +162,7 @@ local tasklist_buttons = gears.table.join(
 awful.screen.connect_for_each_screen(function(s)
     local l = awful.layout.suit
 
+-- Tags {{{
     awful.tag.add('one', {
       layout = mylayouts.cols,
       master_fill_policy = 'master_width_factor',
@@ -201,6 +202,7 @@ awful.screen.connect_for_each_screen(function(s)
     awful.tag.add('six', {
       screen = s,
    })
+-- }}}
 
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
