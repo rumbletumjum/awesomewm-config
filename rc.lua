@@ -561,13 +561,41 @@ client.connect_signal("manage", function (c)
     end
 end)
 
+client.connect_signal("property::floating", function(c)
+   if c.floating then
+      awful.titlebar.show(c)
+      -- c.border_width = 0
+      if c.old_geometry then c:geometry(c.old_geometry) end
+   else
+      awful.titlebar.hide(c)
+      -- c.border_width = beautiful.border_width
+      c.old_geometry = c:geometry()
+   end
+end)
+
+function double_click_event_handler(double_click_event)
+  if double_click_timer then
+    double_click_timer:stop()
+    double_click_timer = nil
+    return true
+  end
+
+  double_click_timer = gears.timer.start_new(0.20, function()
+    double_click_timer = nil
+    return false
+  end)
+end
 -- Add a titlebar if titlebars_enabled is set to true in the rules.
 client.connect_signal("request::titlebars", function(c)
     -- buttons for the titlebar
     local buttons = gears.table.join(
         awful.button({ }, 1, function()
+         if double_click_event_handler() then
+            c.maximized = not c.maximized
+         else
             c:emit_signal("request::activate", "titlebar", {raise = true})
             awful.mouse.client.move(c)
+         end
         end),
         awful.button({ }, 3, function()
             c:emit_signal("request::activate", "titlebar", {raise = true})
