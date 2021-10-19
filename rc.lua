@@ -217,6 +217,9 @@ awful.screen.connect_for_each_screen(function(s)
       awful.button({ }, 4, function () awful.layout.inc( 1) end),
       awful.button({ }, 5, function () awful.layout.inc(-1) end)))
 
+   s.mem_widget = wibox.widget.textbox()
+   vicious.cache(vicious.widgets.mem)
+   vicious.register(s.mem_widget, vicious.widgets.mem, " $1% ", 5)
    -- }}}
 
    -- {{{ Taglist
@@ -299,10 +302,6 @@ awful.screen.connect_for_each_screen(function(s)
       }
    }
    -- }}}
-
-   local mem_widget = wibox.widget.textbox()
-   vicious.cache(vicious.widgets.mem)
-   vicious.register(mem_widget, vicious.widgets.mem, " $1% ", 15)
 
    taglistcont = wibox.container.background(s.mytaglist, "#000000", gears.shape.rectangle)
    s.taglistbox = wibox.container.margin(taglistcont, 0, 0, 5, 5)
