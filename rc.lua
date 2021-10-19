@@ -259,20 +259,31 @@ awful.screen.connect_for_each_screen(function(s)
             {
                id = 'icon_margin_role',
                widget = wibox.container.margin,
-               {
-                  id = 'icon_role',
-                  widget = wibox.widget.imagebox,
-                  left = 4,
+               left = 4,
+               { 
+                  widget = wibox.container.place,
+                  {
+                     widget = wibox.container.constraint,
+                     height = 12,
+                     {
+                        id = 'icon_role',
+                        widget = wibox.widget.imagebox,
+                     },
+                  },
                },
             },
             {
-               id = 'text_margin_role',
-               widget = wibox.container.margin,
-               left = 4,
-               right = 4,
+               widget = wibox.container.place,
+               halign = "left",
                {
-                  id = 'text_role',
-                  widget = wibox.widget.textbox,
+                  id = 'text_margin_role',
+                  widget = wibox.container.margin,
+                  left = 4,
+                  right = 4,
+                  {
+                     id = 'text_role',
+                     widget = wibox.widget.textbox,
+                  },
                },
             }
          }
