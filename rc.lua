@@ -570,7 +570,6 @@ ruled.client.connect_signal("request::rules", function()
    ruled.client.append_rule {
       id = 'floating',
       rule_any = {
-         instance = { 'floatterm' },
          class = {
             '1Password', 'Baobab', 'Gnome-control-center', 'Gpick',
             'Org.gnome.Nautilus', 'Sxiv',
@@ -579,6 +578,16 @@ ruled.client.connect_signal("request::rules", function()
       properties = {
          floating  = true,
          placement = awful.placement.centered
+      }
+   }
+
+   ruled.client.append_rule {
+      id = 'float_term',
+      rule = { instance = 'floatterm' }, 
+      properties = {
+         floating  = true,
+         height    = awful.screen.focused().workarea.height * 0.5,
+         placement = awful.placement.centered,
       }
    }
 
