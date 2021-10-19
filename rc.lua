@@ -16,6 +16,7 @@ local ruled = require("ruled")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
 
+local vicious = require("vicious")
 local mylayouts = require("layouts")
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
@@ -290,6 +291,10 @@ awful.screen.connect_for_each_screen(function(s)
       }
    }
 
+   local mem_widget = wibox.widget.textbox()
+   vicious.cache(vicious.widgets.mem)
+   vicious.register(mem_widget, vicious.widgets.mem, " $1% ", 15)
+
    taglistcont = wibox.container.background(s.mytaglist, "#000000", gears.shape.rectangle)
    s.taglistbox = wibox.container.margin(taglistcont, 0, 0, 5, 5)
 
@@ -306,6 +311,7 @@ awful.screen.connect_for_each_screen(function(s)
       s.mytasklist,
       {
          layout = wibox.layout.fixed.horizontal,
+         mem_widget,
          wibox.widget.systray(),
          mytextclock,
          s.mylayoutbox,
