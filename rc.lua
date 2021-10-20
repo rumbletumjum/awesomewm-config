@@ -328,14 +328,14 @@ end)
 
 -- {{{ Mouse bindings
 awful.mouse.append_global_mousebindings {
-    awful.button({ }, 1, function () mymainmenu:toggle() end),
+   awful.button({ }, 1, function () mymainmenu:toggle() end),
    awful.button({ }, 3, function () awful.menu.client_list({
       theme = { width = 250 },
       coords = { x = 1280, y = 360 } })
    end),
-    awful.button({ }, 4, awful.tag.viewnext),
-    awful.button({ }, 5, awful.tag.viewprev)
-   }
+   awful.button({ }, 4, awful.tag.viewnext),
+   awful.button({ }, 5, awful.tag.viewprev)
+}
 -- }}}
 
 -- {{{ Key bindings
