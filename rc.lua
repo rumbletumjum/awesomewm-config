@@ -172,9 +172,8 @@ awful.screen.connect_for_each_screen(function(s)
 
     awful.tag.add('two', {
       layout = l.tile,
-      master_fill_policy = 'master_width_factor',
       master_width_factor = 0.67,
-      gap_single_client = true,
+      gap_single_client = false,
       gap = 5,
       screen = s,
    })
