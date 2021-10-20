@@ -408,17 +408,20 @@ globalkeys = gears.table.join(
     awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(-1)                end,
               {description = "select previous", group = "layout"}),
 
-    awful.key({ modkey, "Control" }, "n",
-              function ()
-                  local c = awful.client.restore()
-                  -- Focus restored client
-                  if c then
-                    c:emit_signal(
-                        "request::activate", "key.unminimize", {raise = true}
-                    )
-                  end
-              end,
-              {description = "restore minimized", group = "client"}),
+   awful.key({ modkey, "Control" }, "n",
+      function ()
+         awful.menu.client_list({
+            theme = {
+               width = 500,
+               height = 22,
+            },
+            coords = {
+               x = awful.screen.focused().workarea.width * 0.5 - 250,
+               y = awful.screen.focused().workarea.height * 0.125,
+            }
+         })
+      end,
+      { description = "restore minimized", group = "client" }),
 
     -- Prompt
     awful.key({ modkey },            "r",     function () awful.screen.focused().mypromptbox:run() end,
