@@ -6,6 +6,7 @@ pcall(require, "luarocks.loader")
 local gears = require("gears")
 local awful = require("awful")
 require("awful.autofocus")
+require("awful.remote")
 -- Widget and layout library
 local wibox = require("wibox")
 -- Theme handling library
@@ -602,8 +603,6 @@ ruled.client.connect_signal("request::rules", function()
    ruled.client.append_rule {
       rule_any = {
          class = {
-            'Brave-browser',
-            'Firefox',
             'qutebrowser',
          },
       },
@@ -628,18 +627,6 @@ client.connect_signal("manage", function (c)
         -- Prevent clients from being unreachable after screen count changes.
         awful.placement.no_offscreen(c)
     end
-end)
-
-client.connect_signal("property::floating", function(c)
-   if c.floating then
-      awful.titlebar.show(c)
-      -- c.border_width = 0
-      if c.old_geometry then c:geometry(c.old_geometry) end
-   else
-      awful.titlebar.hide(c)
-      -- c.border_width = beautiful.border_width
-      c.old_geometry = c:geometry()
-   end
 end)
 
 function double_click_event_handler(double_click_event)
