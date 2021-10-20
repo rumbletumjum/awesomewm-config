@@ -112,8 +112,6 @@ mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
 -- }}}
 
--- {{{ Wibar
-
 -- Taglist/Tasklist Buttons {{{
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
@@ -156,10 +154,10 @@ local tasklist_buttons = gears.table.join(
    end))
 -- }}}
 
+-- Tags {{{
 awful.screen.connect_for_each_screen(function(s)
     local l = awful.layout.suit
 
--- Tags {{{
     awful.tag.add('one', {
       layout = mylayouts.cols,
       master_fill_policy = 'master_width_factor',
@@ -321,9 +319,8 @@ awful.screen.connect_for_each_screen(function(s)
          s.mylayoutbox,
       },
    }
-   -- }}}
 end)
--- }}}
+   -- }}}
 
 -- {{{ Mouse bindings
 awful.mouse.append_global_mousebindings {
