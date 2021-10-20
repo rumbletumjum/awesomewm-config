@@ -574,8 +574,13 @@ ruled.client.connect_signal("request::rules", function()
       id = 'floating',
       rule_any = {
          class = {
-            '1Password', 'Baobab', 'Gnome-control-center', 'Gpick',
-            'Org.gnome.Nautilus', 'Sxiv',
+            '1Password',
+            'Baobab',
+            'Gnome-control-center',
+            'Gnome-tweaks',
+            'Gpick',
+            'Org.gnome.Nautilus',
+            'Sxiv',
          },
       },
       properties = {
