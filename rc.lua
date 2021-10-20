@@ -157,9 +157,9 @@ local tasklist_buttons = gears.table.join(
 
 -- Tags {{{
 awful.screen.connect_for_each_screen(function(s)
-    local l = awful.layout.suit
+   local l = awful.layout.suit
 
-    awful.tag.add('one', {
+   awful.tag.add('one', {
       layout = mylayouts.cols,
       master_fill_policy = 'master_width_factor',
       master_width_factor = 0.55,
@@ -169,7 +169,7 @@ awful.screen.connect_for_each_screen(function(s)
       selected = true,
    })
 
-    awful.tag.add('two', {
+   awful.tag.add('two', {
       layout = l.tile,
       master_width_factor = 0.67,
       gap_single_client = false,
@@ -177,27 +177,27 @@ awful.screen.connect_for_each_screen(function(s)
       screen = s,
    })
 
-    awful.tag.add('three', {
+   awful.tag.add('three', {
       layout = l.max,
       gap_single_client = true,
       gap = 5,
       screen = s,
    })
 
-    awful.tag.add('four', {
+   awful.tag.add('four', {
       layout = l.floating,
       screen = s,
    })
 
-    awful.tag.add('five', {
+   awful.tag.add('five', {
       layout = l.tile,
       screen = s,
    })
 
-    awful.tag.add('six', {
+   awful.tag.add('six', {
       screen = s,
    })
--- }}}
+   -- }}}
 
    -- Wibar Widgets {{{
    -- Create a textclock widget
@@ -321,7 +321,7 @@ awful.screen.connect_for_each_screen(function(s)
       },
    }
 end)
-   -- }}}
+-- }}}
 
 -- {{{ Mouse bindings
 awful.mouse.append_global_mousebindings {
