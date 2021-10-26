@@ -13,6 +13,7 @@
 
 local awful = require("awful")
 local wibox = require("wibox")
+local gears = require("gears")
 
 local module = {}
 
@@ -34,12 +35,26 @@ local fancytasklist = function(cfg, tag_index)
 		screen = cfg.screen or awful.screen.focused(),
 		filter = generate_filter(tag_index),
 		buttons = cfg.tasklist_buttons,
+      layout = {
+         layout = wibox.layout.fixed.horizontal,
+         spacing = 4,
+      },
 		widget_template = {
-			{
-				id = "clienticon",
-				widget = awful.widget.clienticon,
-                -- forced_height = 16,
-			},
+         {
+            widget = wibox.container.margin,
+            -- right = 4,
+            {
+               widget = wibox.container.place,
+               {
+                  widget = wibox.container.constraint,
+                  height = 14,
+                  {
+                     id = "clienticon",
+                     widget = awful.widget.clienticon
+                  },
+               },
+            },
+         },
 			layout = wibox.layout.stack,
 			create_callback = function(self, c, _, _)
 				self:get_children_by_id("clienticon")[1].client = c
@@ -62,46 +77,53 @@ function module.new(config)
 
 	return awful.widget.taglist{
 		screen = s,
-		filter = awful.widget.taglist.filter.all,
-        layout = {
-            layout = wibox.layout.fixed.horizontal,
-            spacing = 15,
-        },
-		style = {
-			squares_sel = "",
-			squares_unsel = "",
-		},
-		widget_template = {
-			{
-				{
-					-- tag
-					{
-						id = "text_role",
-						widget = wibox.widget.textbox,
-						align = "center"
-					},
-                    {
-					-- tasklist
-                        {
-                            id = "tasklist_placeholder",
-                            layout = wibox.layout.fixed.horizontal,
-                        },
-                        widget = wibox.container.margin,
-                        left = 10,
-                        right = 10,
-						align = "center",
-                    },
-				layout = wibox.layout.fixed.vertical,
-				spacing = 0,
-				},
-				id = "background_role",
-				widget = wibox.container.background
-			},
-			layout = wibox.layout.fixed.horizontal,
-			create_callback = function(self, _, index, _)
-				self:get_children_by_id("tasklist_placeholder")[1]:add(fancytasklist(cfg, index))
-			end
-		},
+		filter = awful.widget.taglist.filter.noempty,
+      layout = {
+         layout = wibox.layout.fixed.horizontal,
+         spacing = 0,
+      },
+      style = {
+         shape = gears.shape.rounded_rect,
+         shape_border_width = 1,
+         shape_border_color = "#2b333900",
+      },
+      widget_template = {
+         {
+            {
+               {
+               -- tag
+               layout = wibox.layout.fixed.horizontal,
+               spacing = 8,
+               {
+                  widget = wibox.container.place,
+                  {
+                  layout = wibox.container.margin,
+                  -- right = 4,
+                  -- left = 10, right = 4,
+                  {
+                     id = "text_role",
+                     widget = wibox.widget.textbox,
+                     align = "center"
+                  },
+                     },
+               },
+               -- tasklist
+               {
+                  id = "tasklist_placeholder",
+                  layout = wibox.layout.fixed.horizontal
+               },
+            },
+            widget = wibox.container.margin,
+            left = 10, right = 10
+            },
+            id = "background_role",
+            widget = wibox.container.background,
+         },
+         layout = wibox.layout.fixed.horizontal,
+         create_callback = function(self, _, index, _)
+            self:get_children_by_id("tasklist_placeholder")[1]:add(fancytasklist(cfg, index))
+         end
+      },
 		buttons = taglist_buttons
 	}
 end

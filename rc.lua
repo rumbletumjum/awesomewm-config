@@ -165,42 +165,42 @@ local tasklist_buttons = gears.table.join(
 awful.screen.connect_for_each_screen(function(s)
    local l = awful.layout.suit
 
-   awful.tag.add('one', {
+   awful.tag.add('1', {
       layout = mylayouts.cols,
       master_fill_policy = 'master_width_factor',
       master_width_factor = 0.55,
-      gap_single_client = false,
+      gap_single_client = true,
       gap = 5,
       screen = s,
       selected = true,
    })
 
-   awful.tag.add('two', {
+   awful.tag.add('2', {
       layout = l.tile,
       master_width_factor = 0.67,
-      gap_single_client = false,
+      gap_single_client = true,
       gap = 5,
       screen = s,
    })
 
-   awful.tag.add('three', {
+   awful.tag.add('3', {
       layout = l.max,
       gap_single_client = true,
       gap = 5,
       screen = s,
    })
 
-   awful.tag.add('four', {
+   awful.tag.add('4', {
       layout = l.floating,
       screen = s,
    })
 
-   awful.tag.add('five', {
+   awful.tag.add('5', {
       layout = l.tile,
       screen = s,
    })
 
-   awful.tag.add('six', {
+   awful.tag.add('6', {
       screen = s,
    })
    -- }}}
@@ -313,12 +313,15 @@ awful.screen.connect_for_each_screen(function(s)
 
    -- Wibox {{{
    s.mywibox = awful.wibar { position = 'top', screen = s }
+   local fancy_taglist = require("fancy_taglist")
+   s.fancytaglist = fancy_taglist.new { screen = s, taglist_buttons = taglist_buttons }
+
 
    s.mywibox:setup {
       layout = wibox.layout.align.horizontal,
       {
          layout = wibox.layout.fixed.horizontal,
-         s.mytaglist,
+         s.fancytaglist,
          s.mypromptbox,
       },
       s.mytasklist,
