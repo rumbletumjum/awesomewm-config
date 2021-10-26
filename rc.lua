@@ -207,7 +207,11 @@ awful.screen.connect_for_each_screen(function(s)
 
    -- Wibar Widgets {{{
    -- Create a textclock widget
-   mytextclock = wibox.widget.textclock()
+   local mytextclock = wibox.widget {
+      widget = wibox.widget.textclock(),
+      format = '%T ',
+      refresh = 1,
+   }
 
    -- Create a promptbox for each screen
    s.mypromptbox = awful.widget.prompt()
