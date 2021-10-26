@@ -149,6 +149,7 @@ local tasklist_buttons = gears.table.join(
          )
       end
    end),
+   awful.button({ }, 2, function (c) c:kill() end),
    awful.button({ }, 3, function()
       awful.menu.client_list({ theme = { width = 250 } })
    end),
