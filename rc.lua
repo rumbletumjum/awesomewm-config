@@ -606,7 +606,11 @@ ruled.client.connect_signal("request::rules", function()
       properties = {
          floating  = true,
          height    = awful.screen.focused().workarea.height * 0.5,
-         placement = awful.placement.centered,
+         width    = awful.screen.focused().workarea.width * 0.25,
+         -- placement = awful.placement.centered,
+         ontop     = true,
+         x = 960,
+         y = 180,
       }
    }
 
@@ -620,6 +624,17 @@ ruled.client.connect_signal("request::rules", function()
          screen = 1,
          tag    = 'two',
       },
+   }
+
+   ruled.client.append_rule {
+      rule = {
+         class = "Spacefm",
+         type = "dialog",
+      }, 
+      properties = {
+         floating = true,
+         placement = awful.placement.centered,
+      }
    }
 end)
 -- }}}
