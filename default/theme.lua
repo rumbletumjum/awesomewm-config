@@ -11,7 +11,7 @@ local themes_path = gfs.get_themes_dir()
 
 local theme = {}
 
-theme.font          = "Anonymous Pro 11px"
+theme.font          = "JetBrains Mono 12px"
 
 theme.bg_normal     = "#222222"
 theme.bg_focus      = "#535d6c"
@@ -43,6 +43,11 @@ theme.border_marked = "#91231c"
 -- Example:
 --theme.taglist_bg_focus = "#ff0000"
 theme.tasklist_disable_icon = false
+theme.taglist_bg_occupied = "#2b333900"
+theme.taglist_bg_focus = "#2b3339"
+theme.tasklist_bg_normal = "#2b333900"
+theme.taglist_shape_border_color = "#2b3339"
+theme.taglist_shape_border_color_focus = "#ffffff"
 
 -- Generate taglist squares:
 local taglist_square_size = dpi(4)

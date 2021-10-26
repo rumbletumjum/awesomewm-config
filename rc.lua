@@ -312,25 +312,31 @@ awful.screen.connect_for_each_screen(function(s)
    -- }}}
 
    -- Wibox {{{
-   s.mywibox = awful.wibar { position = 'top', screen = s }
+
    local fancy_taglist = require("fancy_taglist")
    s.fancytaglist = fancy_taglist.new { screen = s, taglist_buttons = taglist_buttons }
 
+   s.mywibox = awful.wibar { position = 'top', screen = s, height = 32, bg = "#2b333900" }
 
    s.mywibox:setup {
-      layout = wibox.layout.align.horizontal,
+      layout = wibox.container.margin,
+      top = 5, bottom = 5, left = 5,
       {
-         layout = wibox.layout.fixed.horizontal,
-         s.fancytaglist,
-         s.mypromptbox,
-      },
-      s.mytasklist,
-      {
-         layout = wibox.layout.fixed.horizontal,
-         s.mem_widget,
-         wibox.widget.systray(),
-         mytextclock,
-         s.mylayoutbox,
+         layout = wibox.layout.align.horizontal,
+         expand = "none",
+         {
+            layout = wibox.layout.fixed.horizontal,
+            s.fancytaglist,
+            s.mypromptbox,
+         },
+         s.mytasklist,
+         {
+            layout = wibox.layout.fixed.horizontal,
+            s.mem_widget,
+            wibox.widget.systray(),
+            mytextclock,
+            s.mylayoutbox,
+         },
       },
    }
 end)
