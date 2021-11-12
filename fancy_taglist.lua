@@ -15,6 +15,8 @@ local awful = require("awful")
 local wibox = require("wibox")
 local gears = require("gears")
 
+local desaturate = require("utils").desaturate_icon
+
 local module = {}
 
 local generate_filter = function(i)
@@ -29,6 +31,12 @@ local generate_filter = function(i)
 		return false
 	end
 end
+
+local update_function = function(self, c, _, _)
+   local icon = desaturate(c.icon)
+   self:get_children_by_id("_icon_role")[1].image = icon
+end
+
 
 local fancytasklist = function(cfg, tag_index)
 	return awful.widget.tasklist{
@@ -50,12 +58,14 @@ local fancytasklist = function(cfg, tag_index)
                   height = 14,
                   {
                      id = "clienticon",
-                     widget = awful.widget.clienticon
+                     widget = awful.widget.clienticon,
                   },
                },
             },
          },
 			layout = wibox.layout.stack,
+         -- create_callback = update_function,
+         -- update_callback = update_function,
 			create_callback = function(self, c, _, _)
 				self:get_children_by_id("clienticon")[1].client = c
 				awful.tooltip{
@@ -77,7 +87,7 @@ function module.new(config)
 
 	return awful.widget.taglist{
 		screen = s,
-		filter = awful.widget.taglist.filter.noempty,
+		filter = awful.widget.taglist.filter.all,
       layout = {
          layout = wibox.layout.fixed.horizontal,
          spacing = 0,
@@ -120,8 +130,9 @@ function module.new(config)
             widget = wibox.container.background,
          },
          layout = wibox.layout.fixed.horizontal,
-         create_callback = function(self, _, index, _)
+         create_callback = function(self, t, index, _)
             self:get_children_by_id("tasklist_placeholder")[1]:add(fancytasklist(cfg, index))
+            local icon = gears.color.recolor_image(t.icon, "#2b3339")
          end
       },
 		buttons = taglist_buttons

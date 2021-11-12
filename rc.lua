@@ -1,3 +1,4 @@
+-- Requires {{{
 -- If LuaRocks is installed, make sure that packages installed through it are
 -- found (e.g. lgi). If LuaRocks is not installed, do nothing.
 pcall(require, "luarocks.loader")
@@ -23,9 +24,13 @@ local mylayouts = require("layouts")
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
 
+-- package.loaded["popup_tasklist"] = nil
+local popup_tasklist = require("popup_tasklist").new()
+-- require("popup_tasklist")
 -- Load Debian menu entries
 local debian = require("debian.menu")
 local has_fdo, freedesktop = pcall(require, "freedesktop")
+-- }}}
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -227,7 +232,36 @@ awful.screen.connect_for_each_screen(function(s)
 
    s.mem_widget = wibox.widget.textbox()
    vicious.cache(vicious.widgets.mem)
-   vicious.register(s.mem_widget, vicious.widgets.mem, " $1% ", 5)
+   vicious.register(s.mem_widget, vicious.widgets.mem, "$1%", 5)
+
+   s.bat_widget = wibox.widget.textbox()
+   vicious.cache(vicious.widgets.bat)
+   vicious.register(s.bat_widget, vicious.widgets.bat, "$2%", 61, "BAT0")
+
+   s.batwidget = wibox.widget {
+      widget = wibox.widget.progressbar,
+      max_value = 1,
+      border_width = 0.5, border_color = "#ffffff",
+      background_color = "#2b3339",
+      color = {
+         type = "linear",
+         from = { 0, 0 },
+         to = { 0, 22 },
+         -- stops = { { 0, "#FF5656" }, { 1, "#AECF96" } }
+         stops = { { 0, "#aecf96" }, { 1, "#5656ff" } }
+      }
+   }
+
+   s.batbox = wibox.widget {
+         layout = wibox.container.rotate,
+         direction = 'east', color = beautiful.fg_widget,
+         -- forced_height = 10, forced_width = 6,
+         forced_width = 6, forced_height = 10,
+         s.batwidget,
+   }
+   vicious.register(s.batwidget, vicious.widgets.bat, "$2", 61, "BAT0")
+
+
    -- }}}
 
    -- {{{ Taglist
@@ -269,13 +303,25 @@ awful.screen.connect_for_each_screen(function(s)
       screen  = s,
       filter  = awful.widget.tasklist.filter.currenttags,
       buttons = tasklist_buttons,
+      style = {
+         shape = gears.shape.rounded_rect,
+         shape_border_width = 1,
+         },
+         layout = {
+            layout = wibox.layout.flex.horizontal,
+            spacing = 10,
+         },
       widget_template = {
          id = 'background_role',
          border_strategy = 'inner',
          widget = wibox.container.background,
          {
+            widget = wibox.container.margin,
+            left = 10, right = 10,
+            {
             widget = wibox.layout.fixed.horizontal,
             fill_space = true,
+            spacing = 8,
             {
                id = 'icon_margin_role',
                widget = wibox.container.margin,
@@ -289,23 +335,24 @@ awful.screen.connect_for_each_screen(function(s)
                         id = 'icon_role',
                         widget = wibox.widget.imagebox,
                      },
+                        },
                   },
                },
-            },
             {
+                  id = 'text_margin_role',
+                  widget = wibox.container.margin,
+                  -- left = 8,
+                  right = 4,
+                  {
                widget = wibox.container.place,
                halign = "left",
                {
-                  id = 'text_margin_role',
-                  widget = wibox.container.margin,
-                  left = 4,
-                  right = 4,
-                  {
                      id = 'text_role',
                      widget = wibox.widget.textbox,
                   },
                },
             }
+               }
          }
       }
    }
@@ -316,9 +363,9 @@ awful.screen.connect_for_each_screen(function(s)
    local fancy_taglist = require("fancy_taglist")
    s.fancytaglist = fancy_taglist.new { screen = s, taglist_buttons = taglist_buttons }
 
-   s.mywibox = awful.wibar { position = 'top', screen = s, height = 32, bg = "#2b333900" }
+   s.mywibar = awful.wibar { position = 'top', screen = s, height = 32, bg = "#2b333900" }
 
-   s.mywibox:setup {
+   s.mywibar:setup {
       layout = wibox.container.margin,
       top = 5, bottom = 5, left = 5,
       {
@@ -332,8 +379,27 @@ awful.screen.connect_for_each_screen(function(s)
          s.mytasklist,
          {
             layout = wibox.layout.fixed.horizontal,
+            spacing = 20,
+            spacing_widget = {
+               widget = wibox.container.place,
+               valign = "center", halign = "center",
+               {
+                  widget = wibox.widget.separator,
+                  forced_height = 20
+               }
+            },
             s.mem_widget,
-            wibox.widget.systray(),
+            s.bat_widget,
+            {
+               widget = wibox.container.place,
+               valign = "center", halign = "center",
+               {
+                  layout = wibox.container.constraint,
+                  width = 100, height = 5,
+                  s.batwidget,
+               },
+            },
+            -- wibox.widget.systray(),
             mytextclock,
             s.mylayoutbox,
          },
@@ -403,7 +469,11 @@ globalkeys = gears.table.join(
       {description = "open a terminal", group = "launcher"}),
    awful.key({ modkey, "Shift"   }, "Return", function () awful.spawn(float_term) end,
       {description = "launch a floating terminal", group = "launcher"}),
-   awful.key({ modkey,           }, "b", function() awful.spawn(file_browser) end,
+   awful.key({ modkey,           }, "b", 
+      function() 
+         local wb = awful.screen.focused().mywibar
+         wb.visible = not wb.visible
+      end,
       {description = "launch file browser", group = "launcher"}),
 
    awful.key({ modkey, "Control" }, "r", awesome.restart,
@@ -626,12 +696,26 @@ ruled.client.connect_signal("request::rules", function()
    ruled.client.append_rule {
       rule_any = {
          class = {
+            'Brave-browser',
             'qutebrowser',
+            'Vivaldi-stable',
          },
       },
       properties = {
          screen = 1,
-         tag    = 'two',
+         tag    = '2',
+      },
+   }
+
+   ruled.client.append_rule {
+      rule_any = {
+         class = {
+            'Emacs',
+         },
+      },
+      properties = {
+         screen = 1,
+         tag    = '3',
       },
    }
 
@@ -656,8 +740,8 @@ client.connect_signal("manage", function (c)
    -- if not awesome.startup then awful.client.setslave(c) end
 
    local t = awful.screen.focused().selected_tag
-   if not awesome.startup 
-      and t.name ~= "two" then
+   if not awesome.startup then
+      -- and t.name ~= "two" then
       awful.client.setslave(c)
    end
    if awesome.startup
@@ -735,6 +819,15 @@ end)
 
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
+
+screen.connect_signal("arrange", function(s)
+   -- local s = c.screen
+   local max = s.selected_tag.layout.name == "max"
+   local only_one = #s.tiled_clients == 1
+   for _, c in pairs(s.clients) do
+      c.border_width = (max or only_one) and not c.floating and 0 or beautiful.border_width
+   end
+end)
 -- }}}
 
 -- vim: ts=3:sw=3:sts=3:et:fdm=marker

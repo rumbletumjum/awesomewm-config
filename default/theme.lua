@@ -43,11 +43,16 @@ theme.border_marked = "#91231c"
 -- Example:
 --theme.taglist_bg_focus = "#ff0000"
 theme.tasklist_disable_icon = false
+
+theme.taglist_bg_focus = "#2b333900"
 theme.taglist_bg_occupied = "#2b333900"
-theme.taglist_bg_focus = "#2b3339"
-theme.tasklist_bg_normal = "#2b333900"
 theme.taglist_shape_border_color = "#2b3339"
 theme.taglist_shape_border_color_focus = "#ffffff"
+
+theme.tasklist_bg_normal = "#2b333900"
+theme.tasklist_bg_focus = "#2b333900"
+theme.tasklist_shape_border_color = "#2b3339"
+theme.tasklist_shape_border_color_focus = "#ffffff"
 
 -- Generate taglist squares:
 local taglist_square_size = dpi(4)
