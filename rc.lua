@@ -326,7 +326,7 @@ awful.screen.connect_for_each_screen(function(s)
                id = 'icon_margin_role',
                widget = wibox.container.margin,
                left = 4,
-               { 
+               {
                   widget = wibox.container.place,
                   {
                      widget = wibox.container.constraint,
@@ -469,8 +469,8 @@ globalkeys = gears.table.join(
       {description = "open a terminal", group = "launcher"}),
    awful.key({ modkey, "Shift"   }, "Return", function () awful.spawn(float_term) end,
       {description = "launch a floating terminal", group = "launcher"}),
-   awful.key({ modkey,           }, "b", 
-      function() 
+   awful.key({ modkey,           }, "b",
+      function()
          local wb = awful.screen.focused().mywibar
          wb.visible = not wb.visible
       end,
@@ -681,7 +681,7 @@ ruled.client.connect_signal("request::rules", function()
 
    ruled.client.append_rule {
       id = 'float_term',
-      rule = { instance = 'floatterm' }, 
+      rule = { instance = 'floatterm' },
       properties = {
          floating  = true,
          height    = awful.screen.focused().workarea.height * 0.5,
@@ -723,7 +723,7 @@ ruled.client.connect_signal("request::rules", function()
       rule = {
          class = "Spacefm",
          type = "dialog",
-      }, 
+      },
       properties = {
          floating = true,
          placement = awful.placement.centered,
