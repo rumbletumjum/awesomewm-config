@@ -169,7 +169,7 @@ awful.screen.connect_for_each_screen(function(s)
       layout = mylayouts.cols,
       master_fill_policy = 'master_width_factor',
       master_width_factor = 0.55,
-      gap_single_client = true,
+      gap_single_client = false,
       gap = 5,
       screen = s,
       selected = true,
@@ -177,8 +177,8 @@ awful.screen.connect_for_each_screen(function(s)
 
    awful.tag.add('2', {
       layout = l.tile,
-      master_width_factor = 0.67,
-      gap_single_client = true,
+      master_width_factor = 0.60,
+      gap_single_client = false,
       gap = 5,
       screen = s,
    })
@@ -209,7 +209,7 @@ awful.screen.connect_for_each_screen(function(s)
    -- Create a textclock widget
    local mytextclock = wibox.widget {
       widget = wibox.widget.textclock(),
-      format = '%T ',
+      format = '%T',
       refresh = 1,
    }
 
