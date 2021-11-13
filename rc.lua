@@ -306,12 +306,9 @@ awful.screen.connect_for_each_screen(function(s)
       style = {
          shape = gears.shape.rounded_rect,
          shape_border_width = 1,
-         },
-         layout = {
-            layout = wibox.layout.flex.horizontal,
-            spacing = 10,
-         },
+      },
       widget_template = {
+         forced_width = 300,
          id = 'background_role',
          border_strategy = 'inner',
          widget = wibox.container.background,
@@ -319,40 +316,40 @@ awful.screen.connect_for_each_screen(function(s)
             widget = wibox.container.margin,
             left = 10, right = 10,
             {
-            widget = wibox.layout.fixed.horizontal,
-            fill_space = true,
-            spacing = 8,
-            {
-               id = 'icon_margin_role',
-               widget = wibox.container.margin,
-               left = 4,
+               widget = wibox.layout.fixed.horizontal,
+               fill_space = true,
+               spacing = 8,
                {
-                  widget = wibox.container.place,
+                  id = 'icon_margin_role',
+                  widget = wibox.container.margin,
+                  left = 4,
                   {
-                     widget = wibox.container.constraint,
-                     height = 12,
+                     widget = wibox.container.place,
                      {
-                        id = 'icon_role',
-                        widget = wibox.widget.imagebox,
-                     },
+                        widget = wibox.container.constraint,
+                        height = 12,
+                        {
+                           id = 'icon_role',
+                           widget = wibox.widget.imagebox,
                         },
+                     },
                   },
                },
-            {
+               {
                   id = 'text_margin_role',
                   widget = wibox.container.margin,
                   -- left = 8,
                   right = 4,
                   {
-               widget = wibox.container.place,
-               halign = "left",
-               {
-                     id = 'text_role',
-                     widget = wibox.widget.textbox,
+                     widget = wibox.container.place,
+                     halign = "left",
+                     {
+                        id = 'text_role',
+                        widget = wibox.widget.textbox,
+                     },
                   },
-               },
-            }
                }
+            }
          }
       }
    }
