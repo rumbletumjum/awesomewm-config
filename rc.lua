@@ -367,14 +367,21 @@ awful.screen.connect_for_each_screen(function(s)
       top = 5, bottom = 5, left = 5,
       {
          layout = wibox.layout.align.horizontal,
-         expand = "none",
-         {
+         expand = "inside",
+         { -- left
             layout = wibox.layout.fixed.horizontal,
             s.fancytaglist,
             s.mypromptbox,
          },
-         s.mytasklist,
-         {
+         { -- middle
+            layout = wibox.container.margin,
+            left = 10, right = 10,
+            {
+               layout = wibox.layout.fixed.horizontal,
+               s.mytasklist,
+            },
+         },
+         { -- right
             layout = wibox.layout.fixed.horizontal,
             spacing = 20,
             spacing_widget = {
