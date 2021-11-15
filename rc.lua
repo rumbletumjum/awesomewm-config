@@ -96,22 +96,24 @@ myawesomemenu = {
    { "quit", function() awesome.quit() end },
 }
 
-local menu_awesome = { "awesome", myawesomemenu, beautiful.awesome_icon }
-local menu_terminal = { "open terminal", terminal }
+local menu_awesome  = { "Awesome", myawesomemenu, beautiful.awesome_icon }
+local menu_terminal = { "Terminal", float_term }
+local menu_nautilus = { "Nautilus", file_browser }
+
 
 if has_fdo then
    mymainmenu = freedesktop.menu.build({
-      before = { menu_awesome },
-      after =  { menu_terminal }
+      before = { menu_terminal, menu_nautilus },
+      after =  { menu_awesome }
    })
 else
-   mymainmenu = awful.menu({
+   mymainmenu = awful.menu {
       items = {
-         menu_awesome,
-         { "Debian", debian.menu.Debian_menu.Debian },
-         menu_terminal,
+         { "terminal", float_term },
+         { "nautilus", file_browser },
+         { "awesome", myawesomemenu, beautiful.awesome_icon },
       }
-   })
+   }
 end
 
 mylauncher = awful.widget.launcher({
