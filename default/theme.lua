@@ -135,7 +135,16 @@ theme.awesome_icon = theme_assets.awesome_icon(
 
 -- Define the icon theme for application icons. If not set then the icons
 -- from /usr/share/icons and /usr/share/icons/hicolor will be used.
-theme.icon_theme = nil
+theme.icon_theme = "ACYLS"
+
+local icon_dir = os.getenv("HOME") .. "/.icons/ACYLS/scalable/apps/"
+
+theme.ic_icons = {
+   ["Alacritty"] = icon_dir .. "terminal.svg",
+   ["Vivaldi-stable"] = icon_dir .. "browser.svg",
+   ["Brave-browser"] = icon_dir .. "browser.svg",
+}
+
 
 return theme
 

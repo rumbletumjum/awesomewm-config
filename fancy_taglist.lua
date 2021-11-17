@@ -55,7 +55,7 @@ local fancytasklist = function(cfg, tag_index)
                widget = wibox.container.place,
                {
                   widget = wibox.container.constraint,
-                  height = 14,
+                  height = 24,
                   {
                      id = "clienticon",
                      widget = awful.widget.clienticon,
@@ -87,7 +87,7 @@ function module.new(config)
 
 	return awful.widget.taglist{
 		screen = s,
-		filter = awful.widget.taglist.filter.all,
+		filter = awful.widget.taglist.filter.noempty,
       layout = {
          layout = wibox.layout.fixed.horizontal,
          spacing = 0,

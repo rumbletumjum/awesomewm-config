@@ -30,6 +30,7 @@ local popup_tasklist = require("popup_tasklist").new()
 -- Load Debian menu entries
 local debian = require("debian.menu")
 local has_fdo, freedesktop = pcall(require, "freedesktop")
+
 -- }}}
 
 -- {{{ Error handling
@@ -192,13 +193,13 @@ awful.screen.connect_for_each_screen(function(s)
 
    awful.tag.add('3', {
       layout = l.max,
-      gap_single_client = true,
+      gap_single_client = false,
       gap = 5,
       screen = s,
    })
 
    awful.tag.add('4', {
-      layout = l.floating,
+      layout = l.tile,
       screen = s,
    })
 
@@ -208,6 +209,7 @@ awful.screen.connect_for_each_screen(function(s)
    })
 
    awful.tag.add('6', {
+      layout = l.floating,
       screen = s,
    })
    -- }}}
@@ -329,7 +331,7 @@ awful.screen.connect_for_each_screen(function(s)
                      widget = wibox.container.place,
                      {
                         widget = wibox.container.constraint,
-                        height = 12,
+                        height = 32,
                         {
                            id = 'icon_role',
                            widget = wibox.widget.imagebox,
@@ -362,7 +364,7 @@ awful.screen.connect_for_each_screen(function(s)
    local fancy_taglist = require("fancy_taglist")
    s.fancytaglist = fancy_taglist.new { screen = s, taglist_buttons = taglist_buttons }
 
-   s.mywibar = awful.wibar { position = 'top', screen = s, height = 32, bg = "#2b333900" }
+   s.mywibar = awful.wibar { position = 'top', screen = s, height = 40, bg = "#2b333900" }
 
    s.mywibar:setup {
       layout = wibox.container.margin,
@@ -385,15 +387,15 @@ awful.screen.connect_for_each_screen(function(s)
          },
          { -- right
             layout = wibox.layout.fixed.horizontal,
-            spacing = 20,
-            spacing_widget = {
-               widget = wibox.container.place,
-               valign = "center", halign = "center",
-               {
-                  widget = wibox.widget.separator,
-                  forced_height = 20
-               }
-            },
+            spacing = 10,
+            -- spacing_widget = {
+            --    widget = wibox.container.place,
+            --    valign = "center", halign = "center",
+            --    {
+            --       widget = wibox.widget.separator,
+            --       -- forced_height = 10
+            --    }
+            -- },
             s.mem_widget,
             s.bat_widget,
             {
@@ -484,7 +486,7 @@ globalkeys = gears.table.join(
 
    awful.key({ modkey, "Control" }, "r", awesome.restart,
       {description = "reload awesome", group = "awesome"}),
-   awful.key({ modkey, "Shift"   }, "q", awesome.quit,
+   awful.key({ modkey, "Shift"   }, "q", function () awful.spawn("gnome-session-quit --logout") end,
       {description = "quit awesome", group = "awesome"}),
 
    awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)          end,
@@ -836,4 +838,5 @@ screen.connect_signal("arrange", function(s)
 end)
 -- }}}
 
+require("icon_customizer"){ delay = 0.2 }
 -- vim: ts=3:sw=3:sts=3:et:fdm=marker
