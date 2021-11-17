@@ -691,13 +691,13 @@ ruled.client.connect_signal("request::rules", function()
       id = 'float_term',
       rule = { instance = 'floatterm' },
       properties = {
-         floating  = true,
-         height    = awful.screen.focused().workarea.height * 0.5,
-         width    = awful.screen.focused().workarea.width * 0.25,
-         -- placement = awful.placement.centered,
-         ontop     = true,
-         x = 960,
-         y = 180,
+         floating = true,
+         height   = awful.screen.focused().workarea.height * 0.5,
+         width    = awful.screen.focused().workarea.width * 0.5,
+         placement = awful.placement.centered,
+         ontop    = true,
+         -- x        = 480,
+         -- y        = 180,
       }
    }
 
@@ -729,11 +729,11 @@ ruled.client.connect_signal("request::rules", function()
 
    ruled.client.append_rule {
       rule = {
-         class = "Spacefm",
          type = "dialog",
       },
       properties = {
-         floating = true,
+         floating  = true,
+         ontop     = true,
          placement = awful.placement.centered,
       }
    }
