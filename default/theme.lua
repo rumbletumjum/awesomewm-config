@@ -11,7 +11,7 @@ local themes_path = gfs.get_themes_dir()
 
 local theme = {}
 
-theme.font          = "JetBrains Mono 12px"
+theme.font          = "Terminus 12px"
 
 theme.bg_normal     = "#222222"
 theme.bg_focus      = "#535d6c"
@@ -24,7 +24,7 @@ theme.fg_focus      = "#ffffff"
 theme.fg_urgent     = "#ffffff"
 theme.fg_minimize   = "#ffffff"
 
-theme.useless_gap   = dpi(3)
+-- theme.useless_gap   = dpi(3)
 theme.border_width  = dpi(2)
 theme.border_normal = "#000000"
 theme.border_focus  = "#6699cc"
@@ -54,14 +54,17 @@ theme.tasklist_bg_focus = "#2b333900"
 theme.tasklist_shape_border_color = "#2b3339"
 theme.tasklist_shape_border_color_focus = "#ffffff"
 
+theme.titlebar_bg_normal = "#343d50"
+theme.titlebar_bg_focus = "#343d50"
+
 -- Generate taglist squares:
-local taglist_square_size = dpi(4)
-theme.taglist_squares_sel = theme_assets.taglist_squares_sel(
-   taglist_square_size, theme.fg_normal
-)
-theme.taglist_squares_unsel = theme_assets.taglist_squares_unsel(
-   taglist_square_size, theme.fg_normal
-)
+-- local taglist_square_size = dpi(4)
+-- theme.taglist_squares_sel = theme_assets.taglist_squares_sel(
+--    taglist_square_size, theme.fg_normal
+-- )
+-- theme.taglist_squares_unsel = theme_assets.taglist_squares_unsel(
+--    taglist_square_size, theme.fg_normal
+-- )
 
 -- Variables set for theming notifications:
 -- notification_font

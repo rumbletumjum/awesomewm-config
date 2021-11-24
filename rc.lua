@@ -178,23 +178,23 @@ awful.screen.connect_for_each_screen(function(s)
       master_fill_policy = 'master_width_factor',
       master_width_factor = 0.55,
       gap_single_client = false,
-      gap = 5,
-      screen = s,
+      -- gap = 5,
+      -- screen = s,
       selected = true,
    })
 
    awful.tag.add('2', {
       layout = l.tile,
       master_width_factor = 0.60,
-      gap_single_client = false,
-      gap = 5,
+      -- gap_single_client = false,
+      -- gap = 5,
       screen = s,
    })
 
    awful.tag.add('3', {
       layout = l.max,
-      gap_single_client = false,
-      gap = 5,
+      -- gap_single_client = false,
+      -- gap = 5,
       screen = s,
    })
 
@@ -308,7 +308,7 @@ awful.screen.connect_for_each_screen(function(s)
       filter  = awful.widget.tasklist.filter.currenttags,
       buttons = tasklist_buttons,
       style = {
-         shape = gears.shape.rounded_rect,
+         shape = gears.shape.rectangle,
          shape_border_width = 1,
       },
       widget_template = {
@@ -331,7 +331,7 @@ awful.screen.connect_for_each_screen(function(s)
                      widget = wibox.container.place,
                      {
                         widget = wibox.container.constraint,
-                        height = 32,
+                        height = 12,
                         {
                            id = 'icon_role',
                            widget = wibox.widget.imagebox,
@@ -364,12 +364,20 @@ awful.screen.connect_for_each_screen(function(s)
    local fancy_taglist = require("fancy_taglist")
    s.fancytaglist = fancy_taglist.new { screen = s, taglist_buttons = taglist_buttons }
 
-   s.mywibar = awful.wibar { position = 'top', screen = s, height = 40, bg = "#2b333900" }
+   s.mywibar = awful.wibar { position = 'bottom', screen = s, height = 24, bg = "#1d1f21" }
+   s.topbar = awful.wibar { position = 'top', screen = s, height = 24, bg = "#1d1f21" }
+
+   s.topbar:setup {
+      layout = wibox.layout.align.horizontal,
+      nil,
+      s.mytasklist,
+      nil,
+   }
 
    s.mywibar:setup {
-      layout = wibox.container.margin,
-      top = 5, bottom = 5, left = 5,
-      {
+      -- layout = wibox.container.margin,
+      -- top = 5, bottom = 5, left = 5,
+      -- {
          layout = wibox.layout.align.horizontal,
          expand = "inside",
          { -- left
@@ -377,14 +385,15 @@ awful.screen.connect_for_each_screen(function(s)
             s.fancytaglist,
             s.mypromptbox,
          },
-         { -- middle
-            layout = wibox.container.margin,
-            left = 10, right = 10,
-            {
-               layout = wibox.layout.fixed.horizontal,
-               s.mytasklist,
-            },
-         },
+         nil,
+         -- { -- middle
+         --    layout = wibox.container.margin,
+         --    left = 10, right = 10,
+         --    {
+         --       layout = wibox.layout.fixed.horizontal,
+         --       s.mytasklist,
+         --    },
+         -- },
          { -- right
             layout = wibox.layout.fixed.horizontal,
             spacing = 10,
@@ -398,19 +407,20 @@ awful.screen.connect_for_each_screen(function(s)
             -- },
             s.mem_widget,
             s.bat_widget,
-            {
-               widget = wibox.container.place,
-               valign = "center", halign = "center",
-               {
-                  layout = wibox.container.constraint,
-                  width = 100, height = 5,
-                  s.batwidget,
-               },
-            },
+            -- {
+            --    widget = wibox.container.place,
+            --    valign = "center", halign = "center",
+            --    {
+            --       layout = wibox.container.constraint,
+            --       width = 100, height = 5,
+            --       s.batwidget,
+            --    },
+            -- }
+            -- ,
             -- wibox.widget.systray(),
             mytextclock,
             s.mylayoutbox,
-         },
+         -- },
       },
    }
 end)
@@ -665,6 +675,7 @@ ruled.client.connect_signal("request::rules", function()
          screen = awful.screen.preferred,
          keys = clientkeys,
          placement = awful.placement.no_overlap+awful.placement.no_offscreen,
+         -- titlebars_enabled = true,
       }
    }
 
@@ -678,12 +689,26 @@ ruled.client.connect_signal("request::rules", function()
             'Gnome-tweaks',
             'Gpick',
             'Org.gnome.Nautilus',
-            'Sxiv',
+            -- 'Sxiv',
          },
       },
       properties = {
          floating  = true,
-         placement = awful.placement.centered
+         placement = awful.placement.centered,
+         ontop = true,
+      }
+   }
+
+   ruled.client.append_rule {
+      rule_any = {
+         class = {
+            'Gnome-control-center',
+            'Gnome-tweaks',
+            'Org.gnome.Nautilus',
+         },
+      },
+      properties = {
+         titlebars_enabled = false,
       }
    }
 
@@ -792,19 +817,24 @@ client.connect_signal("request::titlebars", function(c)
 
    awful.titlebar(c) : setup {
       { -- Left
-         awful.titlebar.widget.iconwidget(c),
+         {
+            font = beautiful.font_title,
+            widget = awful.titlebar.widget.titlewidget(c)
+         },
+         -- awful.titlebar.widget.iconwidget(c),
          buttons = buttons,
          layout  = wibox.layout.fixed.horizontal
       },
-      { -- Middle
-         { -- Title
-            font = beautiful.font_title,
-            align  = "center",
-            widget = awful.titlebar.widget.titlewidget(c)
-         },
-         buttons = buttons,
-         layout  = wibox.layout.flex.horizontal
-      },
+      nil,
+      -- { -- Middle
+      --    { -- Title
+      --       font = beautiful.font_title,
+      --       align  = "center",
+      --       widget = awful.titlebar.widget.titlewidget(c)
+      --    },
+      --    buttons = buttons,
+      --    layout  = wibox.layout.flex.horizontal
+      -- },
       { -- Right
          -- awful.titlebar.widget.floatingbutton (c),
          -- awful.titlebar.widget.stickybutton   (c),
@@ -828,14 +858,14 @@ end)
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 
-screen.connect_signal("arrange", function(s)
-   -- local s = c.screen
-   local max = s.selected_tag.layout.name == "max"
-   local only_one = #s.tiled_clients == 1
-   for _, c in pairs(s.clients) do
-      c.border_width = (max or only_one) and not c.floating and 0 or beautiful.border_width
-   end
-end)
+-- screen.connect_signal("arrange", function(s)
+--    -- local s = c.screen
+--    local max = s.selected_tag.layout.name == "max"
+--    local only_one = #s.tiled_clients == 1
+--    for _, c in pairs(s.clients) do
+--       c.border_width = (max or only_one) and not c.floating and 0 or beautiful.border_width
+--    end
+-- end)
 -- }}}
 
 require("icon_customizer"){ delay = 0.2 }

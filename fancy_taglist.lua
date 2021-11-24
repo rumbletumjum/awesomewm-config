@@ -55,7 +55,7 @@ local fancytasklist = function(cfg, tag_index)
                widget = wibox.container.place,
                {
                   widget = wibox.container.constraint,
-                  height = 24,
+                  height = 12,
                   {
                      id = "clienticon",
                      widget = awful.widget.clienticon,
@@ -93,9 +93,8 @@ function module.new(config)
          spacing = 0,
       },
       style = {
-         shape = gears.shape.rounded_rect,
+         shape = gears.shape.rectangle,
          shape_border_width = 1,
-         shape_border_color = "#2b333900",
       },
       widget_template = {
          {
